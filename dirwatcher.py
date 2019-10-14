@@ -1,8 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 This is a program that watches a chosen directory and searches the the text for a "magic" word.
 Log when magic word is found. 
 """
+
 __author__ = "Shaquon with help from Piero" 
+
 import time
 import argparse
 import signal
@@ -25,15 +30,16 @@ def watch_directory(dir_to_watch, file_ext, search_text):
     for file in dir_files:
         if file.endswith(file_ext) and file not in tracking_dict:
             tracking_dict[file] = 0
-            logger.info(f"Now tracking {file}")
+            
+            logger.info("Now tracking {}".format(__file__))
 
     for file in list(tracking_dict):
         if file not in dir_files:
             del tracking_dict[file]
-            logger.info(f"{file} removed from watchlist.")
+            logger.info("{} removed from watchlist.".format(file))
 
     for file in tracking_dict:
-        watched_files[file] = find_magic(
+        tracking_dict[file] = find_magic(
             os.path.join(dir_to_watch, file),
             tracking_dict[file],
             search_text
@@ -47,9 +53,9 @@ def find_magic(file, start_pos, magic_word):
         for line_number, line in enumerate(f):
             if line_number >= start_pos:
                 if magic_word in line:
+                    l = line_number+1
                     logger.info(
-                        f"{file}: found '{magic_word}' on"
-                        f" line {line_number+1}"
+                        "{}: found '{}' on line {}".format(file, magic_word, l)
                     )
     return line_number+1
 
@@ -102,7 +108,7 @@ def main():
         '    Running {0}\n'
         '    Started on {1}\n'
         '-------------------------------------------------------------------\n'
-        .format(__file__, start_time.isoformat())
+        .format(__file__, start_time)
     )
     logger.info(
         "Scanning path: {}, for files with extension: {}, that contain the magic word: {}".format(args.dir, args.ext, args.magic)
