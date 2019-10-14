@@ -45,8 +45,6 @@ def watch_directory(dir_to_watch, file_ext, search_text):
             search_text
         )
 
-
-
 def find_magic(file, start_pos, magic_word):
     line_number = 0
     with open(file) as f:
@@ -74,7 +72,6 @@ def signal_handler(sig_num, frame):
  if v.startswith('SIG') and not v.startswith('SIG_'))
     logger.warn('Received ' + signames[sig_num])
     exit_flag = True
-
 
 def create_parser():
     """Creates parser and setup cmd line options"""
